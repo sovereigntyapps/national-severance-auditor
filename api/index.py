@@ -35,7 +35,7 @@ CORE OPERATING PROTOCOL:
 5. Output: Provide an Audit Report comparing the Statutory Minimum vs. the Common Law Target.
 """
 
-@app.post("/api/audit")
+@app.@app.post("/audit")
 async def audit(body: RequestBody):
     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
     
@@ -49,3 +49,4 @@ async def audit(body: RequestBody):
         )
     )
     return {"audit": response.text}
+    app = app
