@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Severance Auditor</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; padding: 20px; background: #f9f9f9; }
+        .container { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        textarea { width: 100%; height: 100px; margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { background: #007bff; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        #output { margin-top: 20px; white-space: pre-wrap; line-height: 1.5; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>National Severance Auditor</h2>
+        <p>Tell me your province, years of service, and job title.</p>
+        <textarea id="prompt" placeholder="Ex: I was an IT manager in Winnipeg for 12 years."></textarea>
+        <button onclick="runAudit()">Analyze Package</button>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        async function runAudit() {
+            const prompt = document.getElementById('prompt').value;
+            const output = document.getElementById('output');
+            output.innerText = "Analyzing law and calculating factors...";
+            
+            try {
+                const response = await fetch('/api/audit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_input: prompt })
+                });
+                const data = await response.json();
+                output.innerText = data.audit;
+            } catch (err) {
+                output.innerText = "Error: Make sure your Vercel environment variables are set.";
+            }
+        }
+    </script>
+</body>
+</html>
